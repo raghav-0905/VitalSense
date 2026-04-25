@@ -1,15 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { MessageCircle, X, Wind, Send } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { WellnessContext } from '../../context/WellnessContext';
 
 export const FloatingTools = () => {
-  const [chatOpen, setChatOpen] = useState(false);
-  const [meditationOpen, setMeditationOpen] = useState(false);
+  const { isChatOpen, setIsChatOpen, isMeditationOpen, setIsMeditationOpen } = useContext(WellnessContext);
   
   const [messages, setMessages] = useState([
     { text: "Hi there! I'm Vital AI. How are you feeling today?", sender: 'ai' }
   ]);
   const [inputValue, setInputValue] = useState('');
+  const [breathText, setBreathText] = useState('Inhale');
+
+  // Breathing cycle logic
+  React.useEffect(() => {
+    if (!isMeditationOpen) return;
+    
+    const startTime = Date.now();
+    const interval = setInterval(() => {
+      const elapsed = (Date.now() - startTime) % 16000;
+      if (elapsed < 4000) setBreathText('Inhale');
+      else if (elapsed < 8000) setBreathText('Hold');
+      else setBreathText('Exhale');
+    }, 100);
+    
+    return () => clearInterval(interval);
+  }, [isMeditationOpen]);
 
   const handleSend = () => {
     if (!inputValue.trim()) return;
@@ -41,24 +57,24 @@ export const FloatingTools = () => {
       {/* Floating Action Buttons pinned strictly to bottom right */}
       <div className="fixed bottom-6 right-6 flex flex-col gap-4 z-50">
         <button 
-          onClick={() => setMeditationOpen(true)}
+          onClick={() => setIsMeditationOpen(true)}
           className="bg-nature-50 text-nature-600 hover:bg-nature-100 p-4 rounded-full shadow-lg border border-nature-200 transition-all flex items-center justify-center transform hover:scale-105"
           title="Meditation Mode"
         >
           <Wind className="w-6 h-6" />
         </button>
         <button 
-          onClick={() => setChatOpen(!chatOpen)}
+          onClick={() => setIsChatOpen(!isChatOpen)}
           className="bg-slate-900 border-none hover:bg-slate-800 text-white p-4 rounded-full shadow-[0_10px_20px_rgba(0,0,0,0.15)] transition-all flex items-center justify-center transform hover:scale-105"
           title="Vital AI Chat"
         >
-          {chatOpen ? <X className="w-6 h-6" /> : <MessageCircle className="w-6 h-6" />}
+          {isChatOpen ? <X className="w-6 h-6" /> : <MessageCircle className="w-6 h-6" />}
         </button>
       </div>
 
       {/* Chatbot Window */}
       <AnimatePresence>
-        {chatOpen && (
+        {isChatOpen && (
           <motion.div 
             initial={{ opacity: 0, y: 50, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -96,14 +112,14 @@ export const FloatingTools = () => {
 
       {/* Meditation Modal */}
       <AnimatePresence>
-        {meditationOpen && (
+        {isMeditationOpen && (
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[100] backdrop-blur-3xl flex items-center justify-center bg-white/90"
           >
-            <button onClick={() => setMeditationOpen(false)} className="absolute top-6 right-6 text-slate-400 hover:text-slate-800 bg-white p-3 rounded-full shadow-md border border-slate-100 transition-all hover:scale-110">
+            <button onClick={() => setIsMeditationOpen(false)} className="absolute top-6 right-6 text-slate-400 hover:text-slate-800 bg-white p-3 rounded-full shadow-md border border-slate-100 transition-all hover:scale-110">
               <X className="w-6 h-6" />
             </button>
             
@@ -131,7 +147,14 @@ export const FloatingTools = () => {
                   }}
                   className="w-48 h-48 rounded-full border-2 border-nature-300 bg-white shadow-xl flex items-center justify-center relative z-10"
                 >
-                   <span className="text-nature-600 font-serif italic text-xl drop-shadow-sm">Inhale</span>
+                   <motion.span 
+                    key={breathText}
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-nature-600 font-serif italic text-2xl drop-shadow-sm"
+                   >
+                     {breathText}
+                   </motion.span>
                 </motion.div>
               </div>
               

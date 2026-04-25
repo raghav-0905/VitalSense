@@ -28,6 +28,9 @@ export const WellnessProvider = ({ children }) => {
     recommendations: []
   });
 
+  const [isMeditationOpen, setIsMeditationOpen] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(false);
+
   // Save to local storage whenever state changes
   useEffect(() => {
     localStorage.setItem('vs_profile', JSON.stringify(userProfile));
@@ -97,7 +100,9 @@ export const WellnessProvider = ({ children }) => {
       userProfile, setUserProfile,
       assessments, addAssessment,
       streak,
-      currentMetrics
+      currentMetrics,
+      isMeditationOpen, setIsMeditationOpen,
+      isChatOpen, setIsChatOpen
     }}>
       {children}
     </WellnessContext.Provider>

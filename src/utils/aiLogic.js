@@ -3,12 +3,16 @@
 export const processAssessment = (data) => {
     // Expected data structure:
     // sleep: number (hours)
-    // stress: number (1-10)
+    // stress1, stress2, stress3: boolean
     // activity: "none" | "light" | "moderate" | "intense"
-    // mood: number (1-10)
+    // mood: number (1, 4, 7, 10)
     // water: number (glasses)
     // doshaProxy: "vata" | "pitta" | "kapha" | "unknown"
   
+    // Convert stress booleans to a 1-10 scale
+    const stressCount = (data.stress1 ? 1 : 0) + (data.stress2 ? 1 : 0) + (data.stress3 ? 1 : 0);
+    const stressScoreValue = stressCount === 0 ? 1 : stressCount === 1 ? 4 : stressCount === 2 ? 7 : 10;
+
     // 1. Calculate Scores (0-100)
     let physicalScore = 50;
     
@@ -28,7 +32,7 @@ export const processAssessment = (data) => {
     else if (data.water >= 4) physicalScore += 5;
     else physicalScore -= 10;
   
-    let mentalScore = 100 - (data.stress * 10) + (data.sleep * 2);
+    let mentalScore = 100 - (stressScoreValue * 10) + (data.sleep * 2);
     let emotionalScore = (data.mood * 10);
   
     // Normalize to 0-100
@@ -40,7 +44,7 @@ export const processAssessment = (data) => {
     const wellnessScore = Math.floor((physicalScore + mentalScore + emotionalScore) / 3);
   
     // 2. Predict Burnout
-    const burnoutRisk = (data.stress >= 7 && data.sleep <= 5) || (data.stress >= 8 && data.mood <= 4);
+    const burnoutRisk = (stressScoreValue >= 7 && data.sleep <= 5) || (stressScoreValue >= 8 && data.mood <= 4);
   
     // 3. Generate Recommendations
     const recommendations = [];
@@ -49,7 +53,7 @@ export const processAssessment = (data) => {
       recommendations.push("Your sleep is below optimal limits. Prioritize wind-down routines tonight.");
     }
     
-    if (data.stress > 6) {
+    if (stressScoreValue > 6) {
         if (data.doshaProxy === "vata") {
             recommendations.push("High stress detected. Vata dosha usually benefits from grounding exercises and warm herbal teas right now.");
         } else {
