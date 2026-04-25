@@ -1,29 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap');
+:root {
+  --vs-bg: #f6efe4;
+  --vs-bg-soft: #efe5d8;
+  --vs-panel: rgba(252, 247, 240, 0.72);
+  --vs-panel-strong: #f7f0e6;
+  --vs-card: #6d6179;
+  --vs-card-deep: #5b5169;
+  --vs-card-soft: #786d86;
+  --vs-text: #4a3557;
+  --vs-text-soft: #8e7f93;
+  --vs-text-muted: #a89ca7;
+  --vs-border: rgba(82, 61, 98, 0.12);
+  --vs-border-strong: rgba(82, 61, 98, 0.2);
+  --vs-cream: #fff8f1;
+  --vs-lilac-haze: rgba(218, 210, 227, 0.68);
+}
 
 @theme {
-  --color-nature-50: #f0fdf4;
-  --color-nature-100: #dcfce7;
-  --color-nature-200: #bbf7d0;
-  --color-nature-300: #86efac;
-  --color-nature-400: #4ade80;
-  --color-nature-500: #10b981;
-  --color-nature-600: #059669;
-  --color-nature-700: #047857;
-  --color-nature-800: #065f46;
-  --color-nature-900: #064e3b;
-  --color-nature-950: #022c22;
+  --color-nature-50: #f5f1f8;
+  --color-nature-100: #ece4f1;
+  --color-nature-200: #ddd1e5;
+  --color-nature-300: #c3b0d0;
+  --color-nature-400: #a48cb8;
+  --color-nature-500: #81668f;
+  --color-nature-600: #634d72;
+  --color-nature-700: #4a3557;
+  --color-nature-800: #3b2946;
+  --color-nature-900: #2f2038;
+  --color-nature-950: #1f1427;
   
   --font-sans: 'Outfit', 'Inter', sans-serif;
+  --font-serif: 'Merriweather', serif;
+}
+
+html {
+  background-color: var(--vs-bg);
 }
 
 body {
   margin: 0;
-  background-color: #FAFAF9;
-  color: #1c1917;
+  background:
+    radial-gradient(circle at top left, var(--vs-lilac-haze), transparent 24%),
+    radial-gradient(circle at 76% 34%, rgba(237, 214, 171, 0.28), transparent 18%),
+    radial-gradient(circle at bottom right, rgba(218, 210, 227, 0.62), transparent 24%),
+    var(--vs-bg);
+  color: var(--vs-text);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: #6e5982;
+  color: #fff8f1;
+}
+
+.vs-panel {
+  background: var(--vs-panel);
+  border: 1px solid var(--vs-border);
+  box-shadow: 0 24px 80px rgba(78, 60, 95, 0.08);
+  backdrop-filter: blur(18px);
+}
+
+.vs-panel-strong {
+  background: var(--vs-panel-strong);
+  border: 1px solid var(--vs-border);
+  box-shadow: 0 18px 54px rgba(78, 60, 95, 0.08);
+}
+
+.vs-dark-panel {
+  background: linear-gradient(180deg, rgba(110, 97, 125, 0.96), rgba(93, 82, 108, 0.96));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 26px 90px rgba(73, 55, 90, 0.18);
+}
+
+.vs-chip {
+  background: rgba(255, 250, 243, 0.84);
+  border: 1px solid var(--vs-border);
+  color: var(--vs-text-soft);
+}
+
+.vs-input {
+  background: rgba(255, 250, 243, 0.8);
+  border: 1px solid var(--vs-border);
+  color: var(--vs-text);
+}
+
+.vs-input::placeholder {
+  color: var(--vs-text-muted);
 }
 
 /* Custom Scrollbar */
@@ -34,9 +103,9 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #d6d3d1;
+  background: #b1a3b8;
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #a8a29e;
+  background: #8c7f96;
 }
