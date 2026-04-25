@@ -80,9 +80,15 @@ const Assessment = () => {
       addAssessment(formData, results);
       if (results.burnoutRisk || results.scores.wellnessScore < 50) {
         setShowTriggerAlert(true);
-        setTimeout(() => { setShowTriggerAlert(false); setIsMeditationOpen(true); setTimeout(() => { setIsChatOpen(true); }, 12000); }, 4000);
+        setTimeout(() => { 
+          setShowTriggerAlert(false); 
+          navigate('/dashboard');
+          setIsMeditationOpen(true); 
+          setTimeout(() => { setIsChatOpen(true); }, 12000); 
+        }, 4000);
+      } else {
+        navigate('/dashboard');
       }
-      navigate('/dashboard');
     }
   };
 

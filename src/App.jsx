@@ -5,7 +5,8 @@ import { AnimatePresence } from 'framer-motion';
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import Assessment from './pages/Assessment';
-import { About, Services, Booking, Profile } from './pages/StaticPages';
+import WorkoutPlanner from './pages/WorkoutPlanner';
+import { AboutAndServices, Booking, Profile } from './pages/StaticPages';
 
 // Components
 import Navbar from './components/ui/Navbar';
@@ -23,10 +24,10 @@ function App() {
             <AnimatePresence mode="wait">
               <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/services" element={<Services />} />
+                <Route path="/about" element={<AboutAndServices />} />
                 <Route path="/assessment" element={<Assessment />} />
                 <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/planner" element={<WorkoutPlanner />} />
                 <Route path="/booking" element={<Booking />} />
                 <Route path="/profile" element={<Profile />} />
               </Routes>

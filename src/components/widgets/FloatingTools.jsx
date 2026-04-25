@@ -6,10 +6,17 @@ import { WellnessContext } from '../../context/WellnessContext';
 export const FloatingTools = () => {
   const { isChatOpen, setIsChatOpen, isMeditationOpen, setIsMeditationOpen } = useContext(WellnessContext);
   
+  const CHAT_OPTIONS = [
+    { label: "I'm feeling stressed", response: "I hear you. When stress peaks, your breathing often becomes shallow. I recommend using the wind icon below for a 1-minute breathing exercise." },
+    { label: "Trouble sleeping", response: "Sleep debt affects everything. Prioritize hydration today, limit caffeine, and try to avoid screens 30 minutes before bed tonight." },
+    { label: "Need a quick workout", response: "Movement is medicine! Head over to the Planner tab to see your curated daily routine." },
+    { label: "How to improve focus?", response: "Focus drops when we're fatigued. Take a 5-minute break away from your desk, stretch your legs, and drink a glass of water." }
+  ];
+
   const [messages, setMessages] = useState([
-    { text: "Hi there! I'm Vital AI. How are you feeling today?", sender: 'ai' }
+    { text: "Hi there! I'm Vital AI. How can I support your wellbeing today?", sender: 'ai' }
   ]);
-  const [inputValue, setInputValue] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
   const [breathText, setBreathText] = useState('Inhale');
 
   // Breathing cycle logic
@@ -27,28 +34,15 @@ export const FloatingTools = () => {
     return () => clearInterval(interval);
   }, [isMeditationOpen]);
 
-  const handleSend = () => {
-    if (!inputValue.trim()) return;
+  const handleOptionClick = (option) => {
+    if (isTyping) return;
     
-    // Add user message
-    const newMessages = [...messages, { text: inputValue, sender: 'user' }];
-    setMessages(newMessages);
-    setInputValue('');
-
-    // Rule-based dummy response
+    setMessages(prev => [...prev, { text: option.label, sender: 'user' }]);
+    setIsTyping(true);
+    
     setTimeout(() => {
-      const lowerInput = inputValue.toLowerCase();
-      let aiResponse = "I hear you. Remember that wellness is an ongoing practice.";
-      
-      if (lowerInput.includes('stress') || lowerInput.includes('anxi')) {
-        aiResponse = "I sense elevated stress. Would you like to try a 1-minute breathing exercise using the meditation tool?";
-      } else if (lowerInput.includes('sleep') || lowerInput.includes('tired')) {
-        aiResponse = "Low energy can be tough. Prioritize hydration today and try to get to bed 30 minutes earlier tonight.";
-      } else if (lowerInput.includes('workout') || lowerInput.includes('gym')) {
-        aiResponse = "Great! Consistent physical activity is key. Check the weekly planner on your dashboard for recommended flows.";
-      }
-
-      setMessages(prev => [...prev, { text: aiResponse, sender: 'ai' }]);
+      setMessages(prev => [...prev, { text: option.response, sender: 'ai' }]);
+      setIsTyping(false);
     }, 1000);
   };
 
@@ -79,11 +73,12 @@ export const FloatingTools = () => {
             initial={{ opacity: 0, y: 50, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 50, scale: 0.9 }}
-            className="fixed bottom-28 right-6 w-80 bg-white shadow-lg rounded-2xl overflow-hidden z-[45] flex flex-col h-[400px] border border-stone-100"
+            className="fixed bottom-28 right-6 w-80 bg-white shadow-lg rounded-2xl overflow-hidden z-[45] flex flex-col h-[450px] border border-stone-100"
           >
             <div className="p-4 font-medium border-b border-stone-100 flex justify-between items-center text-stone-700">
               <span className="flex items-center gap-2"><MessageCircle className="w-4 h-4 text-nature-600"/> Vital AI</span>
             </div>
+            
             <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-stone-50">
               {messages.map((msg, i) => (
                 <div key={i} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
@@ -92,19 +87,31 @@ export const FloatingTools = () => {
                   </div>
                 </div>
               ))}
+              {isTyping && (
+                <div className="flex justify-start">
+                  <div className="p-3 rounded-2xl bg-white border border-stone-100 rounded-bl-md flex gap-1">
+                    <span className="w-1.5 h-1.5 bg-stone-300 rounded-full animate-bounce"></span>
+                    <span className="w-1.5 h-1.5 bg-stone-300 rounded-full animate-bounce delay-75"></span>
+                    <span className="w-1.5 h-1.5 bg-stone-300 rounded-full animate-bounce delay-150"></span>
+                  </div>
+                </div>
+              )}
             </div>
-            <div className="p-3 border-t border-stone-100 bg-white flex items-center gap-2">
-              <input 
-                type="text" 
-                value={inputValue}
-                onChange={e => setInputValue(e.target.value)}
-                onKeyPress={e => e.key === 'Enter' && handleSend()}
-                placeholder="How are you?"
-                className="flex-1 bg-stone-50 border border-stone-200 rounded-full px-4 py-2 text-sm text-stone-700 focus:outline-none focus:border-nature-500 transition-all"
-              />
-              <button onClick={handleSend} className="p-2.5 bg-nature-600 text-white rounded-full hover:bg-nature-500 transition-colors">
-                <Send className="w-4 h-4" />
-              </button>
+            
+            <div className="p-3 border-t border-stone-100 bg-white space-y-2">
+              <p className="text-xs font-semibold text-stone-400 uppercase tracking-wider mb-2">Suggested Topics</p>
+              <div className="flex flex-col gap-2">
+                {CHAT_OPTIONS.map((opt, i) => (
+                  <button 
+                    key={i}
+                    onClick={() => handleOptionClick(opt)}
+                    disabled={isTyping}
+                    className="text-left px-3 py-2 text-sm text-stone-600 bg-stone-50 hover:bg-stone-100 border border-stone-200 rounded-xl transition-colors disabled:opacity-50"
+                  >
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
             </div>
           </motion.div>
         )}
