@@ -52,14 +52,14 @@ export const FloatingTools = () => {
       <div className="fixed bottom-6 right-6 flex flex-col gap-3 z-50">
         <button 
           onClick={() => setIsMeditationOpen(true)}
-          className="bg-white text-nature-600 hover:bg-nature-50 p-3.5 rounded-full shadow-md border border-stone-100 transition-all"
+          className="vs-panel text-nature-700 hover:bg-[rgba(255,248,241,0.95)] p-3.5 rounded-full transition-all"
           title="Meditation Mode"
         >
           <Wind className="w-5 h-5" />
         </button>
         <button 
           onClick={() => setIsChatOpen(!isChatOpen)}
-          className="bg-stone-900 hover:bg-stone-800 text-white p-3.5 rounded-full shadow-md transition-all"
+          className="bg-nature-700 hover:bg-nature-800 text-[var(--vs-cream)] p-3.5 rounded-full shadow-[0_18px_40px_rgba(77,59,90,0.18)] transition-all"
           title="Vital AI Chat"
         >
           {isChatOpen ? <X className="w-5 h-5" /> : <MessageCircle className="w-5 h-5" />}
@@ -73,40 +73,40 @@ export const FloatingTools = () => {
             initial={{ opacity: 0, y: 50, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 50, scale: 0.9 }}
-            className="fixed bottom-28 right-6 w-80 bg-white shadow-lg rounded-2xl overflow-hidden z-[45] flex flex-col h-[450px] border border-stone-100"
+            className="fixed bottom-28 right-6 w-80 vs-panel rounded-2xl overflow-hidden z-[45] flex flex-col h-[450px]"
           >
-            <div className="p-4 font-medium border-b border-stone-100 flex justify-between items-center text-stone-700">
-              <span className="flex items-center gap-2"><MessageCircle className="w-4 h-4 text-nature-600"/> Vital AI</span>
+            <div className="p-4 font-medium border-b border-[color:var(--vs-border)] flex justify-between items-center text-[var(--vs-text)]">
+              <span className="flex items-center gap-2"><MessageCircle className="w-4 h-4 text-nature-700"/> Vital AI</span>
             </div>
             
-            <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-stone-50">
+            <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-[rgba(247,240,230,0.72)]">
               {messages.map((msg, i) => (
                 <div key={i} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                  <div className={`p-3 rounded-2xl max-w-[85%] text-sm ${msg.sender === 'user' ? 'bg-nature-600 text-white rounded-br-md' : 'bg-white border border-stone-100 text-stone-600 rounded-bl-md'}`}>
+                  <div className={`p-3 rounded-2xl max-w-[85%] text-sm ${msg.sender === 'user' ? 'bg-nature-700 text-[var(--vs-cream)] rounded-br-md' : 'bg-[rgba(255,248,241,0.92)] border border-[color:var(--vs-border)] text-[var(--vs-text-soft)] rounded-bl-md'}`}>
                     {msg.text}
                   </div>
                 </div>
               ))}
               {isTyping && (
                 <div className="flex justify-start">
-                  <div className="p-3 rounded-2xl bg-white border border-stone-100 rounded-bl-md flex gap-1">
-                    <span className="w-1.5 h-1.5 bg-stone-300 rounded-full animate-bounce"></span>
-                    <span className="w-1.5 h-1.5 bg-stone-300 rounded-full animate-bounce delay-75"></span>
-                    <span className="w-1.5 h-1.5 bg-stone-300 rounded-full animate-bounce delay-150"></span>
+                  <div className="p-3 rounded-2xl bg-[rgba(255,248,241,0.92)] border border-[color:var(--vs-border)] rounded-bl-md flex gap-1">
+                    <span className="w-1.5 h-1.5 bg-[var(--vs-text-muted)] rounded-full animate-bounce"></span>
+                    <span className="w-1.5 h-1.5 bg-[var(--vs-text-muted)] rounded-full animate-bounce delay-75"></span>
+                    <span className="w-1.5 h-1.5 bg-[var(--vs-text-muted)] rounded-full animate-bounce delay-150"></span>
                   </div>
                 </div>
               )}
             </div>
             
-            <div className="p-3 border-t border-stone-100 bg-white space-y-2">
-              <p className="text-xs font-semibold text-stone-400 uppercase tracking-wider mb-2">Suggested Topics</p>
+            <div className="p-3 border-t border-[color:var(--vs-border)] bg-[rgba(251,246,239,0.82)] space-y-2">
+              <p className="text-xs font-semibold text-[var(--vs-text-muted)] uppercase tracking-wider mb-2">Suggested Topics</p>
               <div className="flex flex-col gap-2">
                 {CHAT_OPTIONS.map((opt, i) => (
                   <button 
                     key={i}
                     onClick={() => handleOptionClick(opt)}
                     disabled={isTyping}
-                    className="text-left px-3 py-2 text-sm text-stone-600 bg-stone-50 hover:bg-stone-100 border border-stone-200 rounded-xl transition-colors disabled:opacity-50"
+                    className="text-left px-3 py-2 text-sm text-[var(--vs-text-soft)] bg-[rgba(255,248,241,0.75)] hover:bg-[rgba(255,248,241,0.95)] border border-[color:var(--vs-border)] rounded-xl transition-colors disabled:opacity-50"
                   >
                     {opt.label}
                   </button>
@@ -124,14 +124,14 @@ export const FloatingTools = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] backdrop-blur-2xl flex items-center justify-center bg-white/90"
+            className="fixed inset-0 z-[100] backdrop-blur-2xl flex items-center justify-center bg-[rgba(246,239,228,0.88)]"
           >
-            <button onClick={() => setIsMeditationOpen(false)} className="absolute top-6 right-6 text-stone-400 hover:text-stone-700 bg-white p-2.5 rounded-full shadow-sm border border-stone-100 transition-all">
+            <button onClick={() => setIsMeditationOpen(false)} className="absolute top-6 right-6 text-[var(--vs-text-muted)] hover:text-[var(--vs-text)] bg-[rgba(255,248,241,0.9)] p-2.5 rounded-full shadow-sm border border-[color:var(--vs-border)] transition-all">
               <X className="w-5 h-5" />
             </button>
             
             <div className="text-center flex flex-col items-center">
-              <h2 className="text-3xl font-semibold text-stone-700 mb-16">Breathe.</h2>
+              <h2 className="text-3xl font-semibold text-[var(--vs-text)] mb-16">Breathe.</h2>
               
               <div className="relative w-56 h-56 flex items-center justify-center">
                 <motion.div 
@@ -142,7 +142,7 @@ export const FloatingTools = () => {
                     repeat: Infinity,
                     times: [0, 0.25, 0.5, 1] 
                   }}
-                  className="absolute w-full h-full rounded-full bg-nature-400 blur-2xl"
+                  className="absolute w-full h-full rounded-full bg-nature-300 blur-2xl"
                 />
                 <motion.div 
                   initial={{ scale: 0.5 }}
@@ -152,13 +152,13 @@ export const FloatingTools = () => {
                     repeat: Infinity,
                     times: [0, 0.25, 0.5, 1]
                   }}
-                  className="w-44 h-44 rounded-full border border-nature-200 bg-white shadow-sm flex items-center justify-center relative z-10"
+                  className="w-44 h-44 rounded-full border border-nature-200 bg-[rgba(255,248,241,0.92)] shadow-[0_18px_50px_rgba(77,59,90,0.08)] flex items-center justify-center relative z-10"
                 >
                    <motion.span 
                     key={breathText}
                     initial={{ opacity: 0, y: 5 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="text-nature-600 font-medium italic text-xl"
+                    className="text-nature-700 font-medium italic text-xl"
                    >
                      {breathText}
                    </motion.span>

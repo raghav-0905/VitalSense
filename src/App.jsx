@@ -10,6 +10,7 @@ import { AboutAndServices, Booking, Profile } from './pages/StaticPages';
 
 // Components
 import Navbar from './components/ui/Navbar';
+import Footer from './components/ui/Footer';
 import { FloatingTools } from './components/widgets/FloatingTools';
 
 import { WellnessProvider } from './context/WellnessContext';
@@ -18,7 +19,7 @@ function App() {
   return (
     <WellnessProvider>
       <Router>
-        <div className="min-h-screen flex flex-col bg-[#FAFAF9] text-stone-800 font-sans selection:bg-nature-500 selection:text-white relative">
+        <div className="min-h-screen flex flex-col bg-[var(--vs-bg)] text-[var(--vs-text)] font-sans relative">
           <Navbar />
           <main className="flex-grow pt-24 z-10"> {/* Ensure content clears the navbar */}
             <AnimatePresence mode="wait">
@@ -33,6 +34,7 @@ function App() {
               </Routes>
             </AnimatePresence>
           </main>
+          <Footer />
           <FloatingTools />
         </div>
       </Router>
