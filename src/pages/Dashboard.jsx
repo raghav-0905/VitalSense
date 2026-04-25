@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { WellnessContext } from '../context/WellnessContext';
 import { motion } from 'framer-motion';
-import { Activity, Flame, Heart, Zap, AlertTriangle, Calendar, Droplets } from 'lucide-react';
+import { Activity, Flame, Heart, Zap, AlertTriangle, Droplets } from 'lucide-react';
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip } from 'recharts';
 
 const Dashboard = () => {
@@ -24,17 +24,17 @@ const Dashboard = () => {
       initial={{ opacity: 0, y: 20 }} 
       animate={{ opacity: 1, y: 0 }} 
       exit={{ opacity: 0 }}
-      className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pb-24"
+      className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pb-24"
     >
       <div className="flex justify-between items-end mb-10">
         <div>
-          <h1 className="text-4xl font-black font-serif mb-2 text-slate-950 tracking-tight">Welcome back, {userProfile.name}</h1>
-          <p className="text-slate-900 font-semibold opacity-60 italic">Your biometric baseline and vital trajectory.</p>
+          <h1 className="text-3xl font-bold mb-1 text-stone-900 tracking-tight">Welcome back, {userProfile.name}</h1>
+          <p className="text-stone-400 text-sm">Here's how you've been doing.</p>
         </div>
         
-        <div className="glass-card px-5 py-2.5 rounded-full flex items-center space-x-2 border-orange-200 bg-orange-50 shadow-sm">
-          <Flame className="h-5 w-5 text-orange-500" />
-          <span className="font-bold text-orange-600">{streak.count} Day Streak</span>
+        <div className="px-4 py-2 rounded-full flex items-center space-x-2 bg-amber-50 border border-amber-100">
+          <Flame className="h-4 w-4 text-amber-500" />
+          <span className="font-medium text-amber-700 text-sm">{streak.count} day streak</span>
         </div>
       </div>
 
@@ -42,115 +42,105 @@ const Dashboard = () => {
         <motion.div 
           initial={{ scale: 0.95, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          className="mb-8 border border-red-200 bg-red-50 p-5 rounded-2xl flex items-start space-x-4 shadow-sm"
+          className="mb-8 border border-red-100 bg-red-50 p-5 rounded-2xl flex items-start space-x-4"
         >
-          <AlertTriangle className="h-6 w-6 text-red-500 shrink-0 mt-1" />
+          <AlertTriangle className="h-5 w-5 text-red-500 shrink-0 mt-0.5" />
           <div>
-            <h3 className="text-red-700 font-bold text-lg">High Burnout Risk Detected</h3>
+            <h3 className="text-red-700 font-semibold">High Burnout Risk</h3>
             <p className="text-red-600/80 text-sm mt-1">
-              Your recent assessment indicates critically high stress combined with low sleep. 
-              Please prioritize rest immediately. We recommend scheduling an offline consultation.
+              Your recent assessment shows high stress combined with low sleep. 
+              Prioritize rest and consider scheduling a wellness consultation.
             </p>
           </div>
         </motion.div>
       )}
 
       {/* Main Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-8">
         {/* Main Score Card */}
-        <div className="glass-card p-8 rounded-3xl lg:col-span-1 flex flex-col items-center justify-center relative overflow-hidden bg-white">
-           <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-nature-400 to-blue-400" />
-           <h3 className="text-slate-900 font-black mb-6 w-full text-center tracking-widest uppercase text-xs opacity-40">System Equilibrium</h3>
+        <div className="bg-white p-8 rounded-2xl border border-stone-100 lg:col-span-1 flex flex-col items-center justify-center relative overflow-hidden">
+           <div className="absolute top-0 left-0 w-full h-1 bg-nature-400" />
+           <h3 className="text-stone-400 font-medium mb-6 w-full text-center text-xs">Wellness Score</h3>
            
-           <div className="relative flex items-center justify-center w-52 h-52 rounded-full border-[12px] border-slate-50/80 shadow-inner bg-slate-50">
+           <div className="relative flex items-center justify-center w-44 h-44 rounded-full border-8 border-stone-50 bg-stone-50">
               <svg className="absolute w-full h-full transform -rotate-90">
                 <circle 
                   cx="50%" cy="50%" r="44%" 
                   fill="none" 
                   stroke="currentColor" 
-                  strokeWidth="10" 
-                  className="text-nature-500 drop-shadow-[0_0_8px_rgba(16,185,129,0.4)] transition-all duration-1000 ease-out"
+                  strokeWidth="8" 
+                  className="text-nature-500 transition-all duration-1000 ease-out"
                   strokeDasharray="276"
                   strokeDashoffset={276 - (276 * currentMetrics.wellnessScore) / 100}
                 />
               </svg>
-              <div className="text-center bg-white w-32 h-32 rounded-full flex flex-col items-center justify-center shadow-sm border border-slate-100">
-                <span className="text-5xl font-black text-slate-950 tracking-tighter">{currentMetrics.wellnessScore}</span>
-                <span className="text-[10px] font-black text-slate-400 mt-1 uppercase tracking-widest">Index</span>
+              <div className="text-center bg-white w-28 h-28 rounded-full flex flex-col items-center justify-center shadow-sm border border-stone-50">
+                <span className="text-4xl font-bold text-stone-900 tracking-tight">{currentMetrics.wellnessScore}</span>
+                <span className="text-xs text-stone-400 mt-0.5">out of 100</span>
               </div>
            </div>
         </div>
 
         {/* Sub Scores */}
-        <div className="lg:col-span-2 grid grid-cols-2 gap-6">
-          <ScoreCard title="Energy Levels" score={currentMetrics.energyScore} icon={<Zap className="text-yellow-500 h-6 w-6" />} color="bg-yellow-400" />
-          <ScoreCard title="Physical Health" score={currentMetrics.physicalScore} icon={<Activity className="text-blue-500 h-6 w-6" />} color="bg-blue-400" />
-          <ScoreCard title="Mental Health" score={currentMetrics.mentalScore} icon={<Heart className="text-pink-500 h-6 w-6" />} color="bg-pink-400" />
-          <ScoreCard title="Emotional State" score={currentMetrics.emotionalScore} icon={<Droplets className="text-purple-500 h-6 w-6" />} color="bg-purple-400" />
+        <div className="lg:col-span-2 grid grid-cols-2 gap-5">
+          <ScoreCard title="Energy" score={currentMetrics.energyScore} icon={<Zap className="text-amber-500 h-5 w-5" />} color="bg-amber-400" />
+          <ScoreCard title="Physical" score={currentMetrics.physicalScore} icon={<Activity className="text-blue-500 h-5 w-5" />} color="bg-blue-400" />
+          <ScoreCard title="Mental" score={currentMetrics.mentalScore} icon={<Heart className="text-pink-500 h-5 w-5" />} color="bg-pink-400" />
+          <ScoreCard title="Emotional" score={currentMetrics.emotionalScore} icon={<Droplets className="text-violet-500 h-5 w-5" />} color="bg-violet-400" />
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Chart Column */}
-        <div className="glass-card p-8 rounded-3xl bg-white/70">
-          <h3 className="text-xl font-black mb-8 text-slate-900 tracking-tight">Wellness Trajectory</h3>
-          <div className="h-64 w-full">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Chart */}
+        <div className="bg-white p-8 rounded-2xl border border-stone-100">
+          <h3 className="text-lg font-semibold mb-6 text-stone-800">Trend</h3>
+          <div className="h-56 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={activeChartData}>
                 <defs>
                   <linearGradient id="colorScore" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#10b981" stopOpacity={0.4}/>
+                    <stop offset="5%" stopColor="#10b981" stopOpacity={0.3}/>
                     <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
                   </linearGradient>
                 </defs>
-                <XAxis dataKey="name" stroke="#cbd5e1" tick={{fill: '#475569'}} axisLine={false} tickLine={false} />
-                <YAxis stroke="#cbd5e1" tick={{fill: '#475569'}} axisLine={false} tickLine={false} />
-                <Tooltip 
-                  contentStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.95)', border: '1px solid #e2e8f0', borderRadius: '12px', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' }}
-                />
-                <Area type="monotone" dataKey="score" stroke="#10b981" strokeWidth={3} fillOpacity={1} fill="url(#colorScore)" />
+                <XAxis dataKey="name" stroke="#d6d3d1" tick={{fill: '#a8a29e', fontSize: 12}} axisLine={false} tickLine={false} />
+                <YAxis stroke="#d6d3d1" tick={{fill: '#a8a29e', fontSize: 12}} axisLine={false} tickLine={false} />
+                <Tooltip contentStyle={{ backgroundColor: '#fff', border: '1px solid #e7e5e4', borderRadius: '10px', boxShadow: '0 4px 12px rgba(0,0,0,0.06)', fontSize: 13 }} />
+                <Area type="monotone" dataKey="score" stroke="#10b981" strokeWidth={2} fillOpacity={1} fill="url(#colorScore)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
         </div>
 
-        {/* AI Recommendations Column */}
-        <div className="space-y-6">
-          <div className="glass-card p-8 rounded-3xl h-full bg-white/70">
-            <h3 className="text-xl font-black mb-6 flex items-center">
-              <span className="bg-gradient-to-r from-nature-700 to-blue-700 text-transparent bg-clip-text">Engineered Insights</span>
-            </h3>
-            
-            <div className="space-y-4">
-              {currentMetrics.recommendations.map((rec, i) => (
-                <div key={i} className="p-5 bg-slate-50 rounded-2xl border border-slate-100 shadow-sm leading-relaxed text-slate-900 font-semibold">
-                  <p>{rec}</p>
-                </div>
-              ))}
-              {currentMetrics.recommendations.length === 0 && (
-                <p className="text-slate-500 font-medium italic text-sm">Take an assessment to generate AI insights.</p>
-              )}
-            </div>
+        {/* Recommendations */}
+        <div className="bg-white p-8 rounded-2xl border border-stone-100 h-full">
+          <h3 className="text-lg font-semibold mb-5 text-stone-800">Recommendations</h3>
+          <div className="space-y-3">
+            {currentMetrics.recommendations.map((rec, i) => (
+              <div key={i} className="p-4 bg-stone-50 rounded-xl text-stone-600 text-sm leading-relaxed">
+                <p>{rec}</p>
+              </div>
+            ))}
+            {currentMetrics.recommendations.length === 0 && (
+              <p className="text-stone-400 text-sm">Take an assessment to get personalized recommendations.</p>
+            )}
           </div>
         </div>
       </div>
-
     </motion.div>
   );
 };
 
 const ScoreCard = ({ title, score, icon, color }) => (
-  <div className="glass-card p-6 rounded-3xl flex flex-col justify-between bg-white/80 hover:bg-white transition-colors border border-white">
-    <div className="flex justify-between items-start mb-6">
-      <div className={`p-3 rounded-2xl bg-slate-50 border border-slate-100 shadow-sm`}>
-        {icon}
-      </div>
-      <span className="text-4xl font-black text-slate-950 tracking-tighter">{score}</span>
+  <div className="bg-white p-5 rounded-2xl border border-stone-100 flex flex-col justify-between">
+    <div className="flex justify-between items-start mb-5">
+      <div className="p-2.5 rounded-xl bg-stone-50">{icon}</div>
+      <span className="text-3xl font-bold text-stone-900 tracking-tight">{score}</span>
     </div>
-    <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+    <div className="w-full bg-stone-100 h-1.5 rounded-full overflow-hidden">
       <div className={`h-full ${color} rounded-full`} style={{ width: `${score}%` }} />
     </div>
-    <h4 className="text-slate-900 text-[10px] mt-4 font-black tracking-widest uppercase opacity-40">{title}</h4>
+    <h4 className="text-stone-400 text-xs mt-3 font-medium">{title}</h4>
   </div>
 );
 

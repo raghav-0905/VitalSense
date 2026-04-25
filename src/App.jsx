@@ -17,7 +17,7 @@ function App() {
   return (
     <WellnessProvider>
       <Router>
-        <div className="min-h-screen flex flex-col bg-white text-slate-800 font-sans selection:bg-nature-500 selection:text-white relative">
+        <div className="min-h-screen flex flex-col bg-[#FAFAF9] text-stone-800 font-sans selection:bg-nature-500 selection:text-white relative">
           <Navbar />
           <main className="flex-grow pt-24 z-10"> {/* Ensure content clears the navbar */}
             <AnimatePresence mode="wait">
